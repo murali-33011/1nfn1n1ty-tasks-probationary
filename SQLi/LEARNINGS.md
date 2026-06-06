@@ -1,6 +1,6 @@
 # SQL Injection : My Learnings
 
-These are my personal notes from solving PortSwigger SQL injection labs. Writing this so I can come back and reference it without having to re-learn everything from scratch.
+These are my personal notes from solving PortSwigger SQL injection labs.
 
 ---
 
@@ -30,15 +30,15 @@ The `OR 1=1` is always true. The `--` comments out everything after it. Every ro
 
 This is not just a theoretical bug. From my labs I have seen what is actually possible:
 
-**Read hidden data** — rows that the application deliberately filters out (unreleased products, soft-deleted records) can be retrieved by making the WHERE clause always true.
+**Read hidden data** : rows that the application deliberately filters out (unreleased products, soft-deleted records) can be retrieved by making the WHERE clause always true.
 
-**Bypass authentication** — if the login query checks username AND password, I can comment out the password check entirely and log in as any user including administrator.
+**Bypass authentication** : if the login query checks username AND password, I can comment out the password check entirely and log in as any user including administrator.
 
-**Enumerate the entire database** — I can pull table names, column names, and then the actual data out of any table the database user has access to.
+**Enumerate the entire database** : I can pull table names, column names, and then the actual data out of any table the database user has access to.
 
-**Fingerprint the database engine** — different databases expose different version functions and system views. I can identify exactly what software and version the backend is running.
+**Fingerprint the database engine** : different databases expose different version functions and system views. I can identify exactly what software and version the backend is running.
 
-**Extract credentials** — once I know the table and column names for user accounts, I can dump usernames and plaintext or hashed passwords.
+**Extract credentials** : once I know the table and column names for user accounts, I can dump usernames and plaintext or hashed passwords.
 
 ---
 
@@ -178,7 +178,7 @@ The reason `-- -` works for MySQL: when the URL is decoded, the space between `-
 
 ---
 
-## UNION, SELECT, WHERE — How I Use These
+## UNION, SELECT, WHERE : How I Use These
 
 ### UNION
 
@@ -289,15 +289,15 @@ For Oracle the same chain uses different views:
 
 ## Things That Kept Catching Me Out
 
-**MySQL comment syntax** — I spent a lot of time on Lab 04 because `--` without a space does not work in MySQL. Always use `-- -` for MySQL.
+**MySQL comment syntax** : I spent a lot of time on Lab 04 because `--` without a space does not work in MySQL. Always use `-- -` for MySQL.
 
-**Oracle needs FROM dual** — if I try `SELECT NULL` in Oracle without `FROM dual` I get an error. Oracle always needs a FROM clause.
+**Oracle needs FROM dual** : if I try `SELECT NULL` in Oracle without `FROM dual` I get an error. Oracle always needs a FROM clause.
 
-**Column count must match exactly** — one too many or one too few NULLs and the UNION fails. No shortcuts here.
+**Column count must match exactly** : one too many or one too few NULLs and the UNION fails. No shortcuts here.
 
-**Randomised column names in labs** — Lab 05 used `username_opexiv` and `password_cfjpjy`. The lab does this to force proper enumeration. In real applications column names are predictable but the enumeration step is still always necessary.
+**Randomised column names in labs** : Lab 05 used `username_opexiv` and `password_cfjpjy`. The lab does this to force proper enumeration. In real applications column names are predictable but the enumeration step is still always necessary.
 
-**URL encoding** — characters like `'` become `%27`, spaces become `+` or `%20`, `#` becomes `%23`. The browser or tools do this automatically but it matters when I am manually crafting URLs. A `#` comment in MySQL often fails because it gets encoded before reaching the server.
+**URL encoding** : characters like `'` become `%27`, spaces become `+` or `%20`, `#` becomes `%23`. The browser or tools do this automatically but it matters when I am manually crafting URLs. A `#` comment in MySQL often fails because it gets encoded before reaching the server.
 
 ---
 
