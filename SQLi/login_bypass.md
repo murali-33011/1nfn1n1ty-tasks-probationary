@@ -1,4 +1,4 @@
-## Lab 02: SQL Injection — Login Bypass
+## Lab 02: SQL Injection : Login Bypass
  
 **Technique:** Comment Truncation
 **Status:** Solved
