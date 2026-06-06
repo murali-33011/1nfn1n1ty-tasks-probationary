@@ -1,3 +1,5 @@
+## Lab 05: SQL Injection : Listing Database Contents on Non-Oracle
+
 **Technique:** information_schema Enumeration
 **Database:** PostgreSQL
 **Status:** Solved
