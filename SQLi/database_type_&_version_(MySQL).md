@@ -1,4 +1,4 @@
-## Lab 04: UNION Injection — Database Version on MySQL and Microsoft
+## Lab 04: UNION Injection : Database Version on MySQL and Microsoft
  
 **Technique:** UNION SELECT + @@version
 **Database:** MySQL 8.0.42
