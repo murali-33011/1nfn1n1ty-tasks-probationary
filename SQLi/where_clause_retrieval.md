@@ -1,3 +1,5 @@
+## Lab 01: SQL Injection in WHERE Clause : Hidden Data Retrieval
+ 
  **Technique:** Boolean Injection
 **Status:** Solved
  
