@@ -4,7 +4,7 @@ Clickjacking is one of those attacks that is conceptually simple but takes a bit
 
 What makes it work is that the browser does not warn you when you click something inside an iframe. It just processes the click. The session cookie is already there, the CSRF token is already in the form, everything is already authenticated. The attacker does not need to steal anything or forge anything. They just need the user's finger.
 
----
+
 
 ## What is Clickjacking
 
@@ -18,7 +18,7 @@ A page the attacker controls where they can host the iframe and decoy elements.
 
 The structural setup is always the same. The iframe gets `position: relative`, a fixed width and height, very low opacity so it is invisible, and `z-index: 2` so it sits on top in terms of click priority. The decoy element gets `position: absolute`, coordinates that align it with the target button in the iframe, and `z-index: 1` so it is visible but below the iframe in the stacking order. The victim sees the decoy. The click hits the iframe.
 
----
+
 
 ## Why CSRF Protection Does Not Help
 
@@ -26,7 +26,7 @@ This is the important thing I understood from Lab 01. CSRF tokens protect agains
 
 This is also why clickjacking requires framing specifically. If you could just trigger the request without an iframe, you would use CSRF. Clickjacking is what you use when CSRF is blocked but framing is not.
 
----
+
 
 ## How to Build the Payload
 
@@ -58,7 +58,7 @@ div {
 
 That is the skeleton for every basic clickjacking attack. Everything else is a variation on this.
 
----
+
 
 ## Types of Clickjacking I Have Covered
 
@@ -117,7 +117,7 @@ Multistep clickjacking hijacks both clicks. You place two decoy elements: one al
 
 The victim clicks first decoy, hidden button fires. They see your fake prompt for a second click. They click second decoy, confirmation dialog confirms. Action is complete. The confirmation dialog provides no real protection because the victim never saw it was there.
 
----
+
 
 ## The Defences and Why They Work
 
@@ -129,7 +129,7 @@ The victim clicks first decoy, hidden button fires. They see your fake prompt fo
 
 The pattern across all five labs was the same: the applications either had no framing protection at all, or had a JavaScript-based protection that was bypassed. Proper HTTP headers would have stopped all of them.
 
----
+
 
 ## The Alignment Problem
 
@@ -145,12 +145,12 @@ The workflow I used across all labs:
 
 The `top` and `left` values will be different for every application and every button depending on the page layout. There is no universal value. You have to measure it each time.
 
----
+
 
 ## Summary
 
 | Lab | What Made It Different | Technique |
-|---|---|---|
+||||
 | 01 | CSRF token present, did not matter | Basic overlay |
 | 02 | Email field prepopulated via URL parameter | URL param prefill |
 | 03 | Frame buster script present | Sandbox iframe bypass |
@@ -159,4 +159,4 @@ The `top` and `left` values will be different for every application and every bu
 
 The core of every single one of these was the same iframe overlay structure. What changed was either what made the page harder to frame or what the click needed to do once it landed.
 
----
+
