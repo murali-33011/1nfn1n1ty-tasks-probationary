@@ -1,5 +1,5 @@
  
-## 1. FindAndOpen
+## FindAndOpen
  
 **Files:** `flag.zip`, `dump.pcap`
 **Flag:** `picoCTF{R34DING_LOKd_fil56_succ3ss_cbf2ebf6}`
