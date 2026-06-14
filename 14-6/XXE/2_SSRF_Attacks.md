@@ -1,9 +1,4 @@
-
 ## Lab 02: Exploiting XXE to Perform SSRF Attacks
- 
-**Technique:** XXE chained with SSRF against EC2 metadata service
-**Target:** AWS IAM credentials via `169.254.169.254`
-**Status:** Solved
  
 ### Context
  
