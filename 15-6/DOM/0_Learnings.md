@@ -252,7 +252,6 @@ Trace data through every transformation it passes through on the way to the sink
 ## Summary
 
 | Lab | Source | Sink | Bypass Needed |
-|||||
 | postMessage innerHTML | postMessage data | `innerHTML` | None, direct injection |
 | postMessage location.href | postMessage data | `location.href` | `http:` substring in comment |
 | postMessage iframe.src | postMessage JSON field | `iframe.src` | None, direct `javascript:` URL |
